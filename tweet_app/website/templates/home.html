@@ -1,0 +1,43 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Broken tweets game</h1>
+
+<script type="text/javascript">
+
+function myFunction(elmnt,clr) {
+// if ({{newwords}} == {{answers}}){
+		elmnt.style.color = 'red'
+	// }else{
+	// 	elmnt.style.color = clr;
+	// }
+}
+						
+</script>
+
+
+{% for tweet in muddled_tweets %}
+	<br><br>
+	<div class="alert alert-primary" role="alert">
+	<!-- {% for key, value in tweet.items %}
+    	{{ value.split }}
+	{% endfor %} -->
+	
+	{% for word in tweet %}
+		<button type="button" class="btn btn-primary" onclick="myFunction(this, 'red')">{{ word }}</button>
+
+	{% endfor %}
+
+
+	
+	
+	</div>
+
+{% endfor %}
+
+
+
+{% endblock %}
+
