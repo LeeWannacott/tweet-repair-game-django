@@ -60,8 +60,10 @@ def home(request):
 		for words in testcrap:
 			#print(word)
 			answers = words[:-1]
+			print(answers)
 			newwords = words[:-1]
 			shuffle(newwords)
+			print(newwords)
 		
 			muddled_tweets.append(newwords)
 			#print(testcrap2)
