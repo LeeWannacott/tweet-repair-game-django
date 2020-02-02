@@ -1,0 +1,61 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br>
+<h1>Fix users shuffled tweets: </h1>
+<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js">
+// Simple list
+Sortable.create(simplelist, { /* options */ });
+
+// List with handle
+Sortable.create(listWithHandle, {
+  handle: '.glyphicon-move',
+  animation: 150
+});	
+
+
+</script>
+
+<script type="text/javascript">
+
+function myFunction(elmnt,clr) {
+// if ({{newwords}} == {{answers}}){
+		elmnt.style.color = 'red'
+		// document.getElementById("word").innerHTML = "Hello World";
+	// }else{
+	// 	elmnt.style.color = clr;
+	// }
+}	
+// Simple list
+Sortable.create(simplelist, { /* options */ });
+
+// List with handle
+
+
+</script>
+
+
+{% for tweet in muddled_tweets %}
+	<br><br>
+	<div class="alert alert-primary" role="alert">
+	<!-- {% for key, value in tweet.items %}
+    	{{ value.split }}
+	{% endfor %} -->
+	<ul id="simplelist">
+	{% for word in tweet %}
+		<!-- <button type="button" class="btn btn-primary" onclick="myFunction(this, 'red')">{{ word }}</button> -->
+		<li>{{word}}</li>
+	{% endfor %}
+	</ul>
+	<hr>
+	<p id='word'></p>
+
+	</div>
+{% endfor %}
+
+
+
+{% endblock %}
+
