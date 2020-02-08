@@ -38,7 +38,7 @@ def home(request):
 	# user = api.get_user(screen_name = 'theresa_may')  
 	# print(user.id)
 	try:
-		for tweet in api.search('airplanes',result_type='popular',count=5):
+		for tweet in api.search('popular',result_type='popular',count=100):
 			#print(tweet.text)
 			tweet_text = tweet.text
 			time = tweet.created_at
@@ -61,6 +61,7 @@ def home(request):
 			#print(word)
 			answers = words[:-1]
 			print(answers)
+
 			newwords = words[:-1]
 			shuffle(newwords)
 			print(newwords)

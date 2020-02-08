@@ -4,8 +4,41 @@
 
 {% block content %}
 
+<!doctype html>
+<html lang="en">
+<head>
+
+<style>
+/* Make Horizontal. */
+li.list-group-item {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+li.list-group-item {
+    flex-grow: 1;
+    list-style-type: none;
+    text-align: center;
+}
+
+ul.list-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+  background-color: #111;
+}
+</style>
+</head>
+<body>
+
 <br>
 <h1>Fix users shuffled tweets: </h1>
+
 
 
   
@@ -17,19 +50,25 @@
 
 	<div class="alert alert-primary" role="alert">
 
-	<ul id="simpleList" class="list-group">
+	<ul class="list-group">
 	{% for word in tweet %}
 
 		<li class="list-group-item">{{word}}</li>
 		
-		
-	
 	{% endfor %}
 	</ul>
 	</div>
 
-	<script>Sortable.create(simpleList,{direction:'horizontal'});</script>
+
 {% endfor %}
+
+<script>
+for (let tweetList of document.querySelectorAll('ul.list-group')){
+	Sortable.create(tweetList,{direction:'horizontal'})
+}
+</script>
+</body>
+</html>
 
 {% endblock %}
 
