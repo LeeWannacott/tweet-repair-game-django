@@ -12,21 +12,9 @@
 <!-- Latest Sortable -->
 <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
 
-<script type="text/javascript">
-function myFunction(elmnt,clr) {
-// if ({{newwords}} == {{answers}}){
-		elmnt.style.color = 'red'
-		// document.getElementById("word").innerHTML = "Hello World";
-	// }else{
-	// 	elmnt.style.color = clr;
-	// }
-}	
-</script>
-
-
 {% for tweet in muddled_tweets %}
 	<br>
-	<script>Sortable.create(simpleList,{direction:'horizontal'});</script>
+
 	<div class="alert alert-primary" role="alert">
 
 	<ul id="simpleList" class="list-group">
@@ -38,10 +26,9 @@ function myFunction(elmnt,clr) {
 	
 	{% endfor %}
 	</ul>
-
-	
-
 	</div>
+
+	<script>Sortable.create(simpleList,{direction:'horizontal'});</script>
 {% endfor %}
 
 {% endblock %}
