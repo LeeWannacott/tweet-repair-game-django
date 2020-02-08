@@ -12,6 +12,9 @@ from django.shortcuts import render
 def home(request):
 	import tweepy
 	import json
+	import requests
+
+
 	
 	from random import shuffle
 
@@ -37,8 +40,17 @@ def home(request):
 	muddled_tweets =[]
 	# user = api.get_user(screen_name = 'theresa_may')  
 	# print(user.id)
+
+	if request.method == 'POST':
+		topic = request.POST['topic']
+		print(topic)
+	else:
+		topic = 'popular'
+		print(topic)
+
 	try:
-		for tweet in api.search('popular',result_type='popular',count=100):
+	
+		for tweet in api.search(topic, result_type= 'popular',count=5):
 			#print(tweet.text)
 			tweet_text = tweet.text
 			time = tweet.created_at
@@ -72,5 +84,7 @@ def home(request):
 	except:
 	    time.sleep(60)
 
+
 	return render(request, 'home.html', {'api' : api, 'tweets_list':tweets_list,
 		'testcrap':testcrap, 'muddled_tweets':muddled_tweets, 'answers':answers,'newwords':newwords})
+
