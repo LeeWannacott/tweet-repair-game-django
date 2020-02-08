@@ -1,25 +1,18 @@
 
 {% extends 'base.html' %}
 
+
 {% block content %}
 
 <br>
 <h1>Fix users shuffled tweets: </h1>
-<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js">
-// Simple list
-Sortable.create(simplelist, { /* options */ });
-
-// List with handle
-Sortable.create(listWithHandle, {
-  handle: '.glyphicon-move',
-  animation: 150
-});	
 
 
-</script>
+  
+<!-- Latest Sortable -->
+<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
 
 <script type="text/javascript">
-
 function myFunction(elmnt,clr) {
 // if ({{newwords}} == {{answers}}){
 		elmnt.style.color = 'red'
@@ -28,34 +21,28 @@ function myFunction(elmnt,clr) {
 	// 	elmnt.style.color = clr;
 	// }
 }	
-// Simple list
-Sortable.create(simplelist, { /* options */ });
-
-// List with handle
-
-
 </script>
 
 
 {% for tweet in muddled_tweets %}
-	<br><br>
+	<br>
+	<script>Sortable.create(simpleList,{direction:'horizontal'});</script>
 	<div class="alert alert-primary" role="alert">
-	<!-- {% for key, value in tweet.items %}
-    	{{ value.split }}
-	{% endfor %} -->
-	<ul id="simplelist">
+
+	<ul id="simpleList" class="list-group">
 	{% for word in tweet %}
-		<!-- <button type="button" class="btn btn-primary" onclick="myFunction(this, 'red')">{{ word }}</button> -->
-		<li>{{word}}</li>
+
+		<li class="list-group-item">{{word}}</li>
+		
+		
+	
 	{% endfor %}
 	</ul>
-	<hr>
-	<p id='word'></p>
+
+	
 
 	</div>
 {% endfor %}
-
-
 
 {% endblock %}
 
