@@ -50,7 +50,7 @@ def home(request):
 
 	try:
 	
-		for tweet in api.search(topic, result_type= 'popular',count=5):
+		for tweet in api.search(topic,lang='en', result_type= 'mixed',count=5):
 			#print(tweet.text)
 			tweet_text = tweet.text
 			time = tweet.created_at
