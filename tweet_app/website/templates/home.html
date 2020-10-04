@@ -25,6 +25,7 @@
       flex-wrap: wrap;
     }
   </style>
+
 </head>
 
 <body>
@@ -81,16 +82,22 @@
         }
 
       }
+
     }
     // Makes <li> items slidable.
     for (let tweetList of document.querySelectorAll('ul.list-group')) {
-      Sortable.create(tweetList, { direction: 'horizontal' });
+      Sortable.create(tweetList, { direction: 'horizontal', swap: 'true', swapClass: "sortable-swap-highlight" });
     }
     // Add event listener on drag.
     for (let slidable of document.querySelectorAll('li.list-group-item')) {
       slidable.addEventListener('dragend', compareOriginalTweetAndMuddledTweet);
     }
   </script>
+  <style>
+    .sortable-swap-highlight {
+      background-color: #9AB6F1;
+    }
+  </style>
 </body>
 
 </html>
