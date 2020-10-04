@@ -1,73 +1,97 @@
+{% extends 'base.html' %} {% block content %}
 
-{% extends 'base.html' %}
-
-
-{% block content %}
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <style>
+    /* Make Horizontal. */
+    li.list-group-item {
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
 
-<style>
-/* Make Horizontal. */
-li.list-group-item {
-    margin-left: 0;
-    margin-right: 0;
-    padding-left: 0;
-    padding-right: 0;
-}
-li.list-group-item {
-    flex-grow: 1;
-    list-style-type: none;
-    text-align: center;
-}
+    li.list-group-item {
+      flex-grow: 1;
+      list-style-type: none;
+      text-align: center;
+    }
 
-ul.list-group {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-}
-
-</style>
+    ul.list-group {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  </style>
 </head>
+
 <body>
+  <br />
+  <h1>Fix users shuffled tweets:</h1>
 
-<br>
-<h1>Fix users shuffled tweets: </h1>
+  {% if topic %} {{ topic }} {% endif %}
+  <script>
+    let tweetArray = []
+    let originalTweetsInOrder = [];
+  </script>
 
-{% if topic %}
-	{{ topic }}
-{% endif %}
+  {% for tweet in tweet_answers %}
+  {% for word in tweet %}
+  <script>
+    //console.log('{{ word1 }}')
+    originalTweetsInOrder.push('{{ word }}')
+  </script>
+  {% endfor %}
+  {% endfor %}
 
+  <!-- Latest Sortable -->
+  <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+  {% for tweet in muddled_tweets %}
+  <br />
+  <div class="alert alert-primary" role="alert">
+    <ul class="list-group">
+      {% for word in tweet %}
+      <script>
+        tweetArray.push('{{word}}');
+      </script>
+      <li class="list-group-item">{{word}}</li>
+      {% endfor %}
+    </ul>
+  </div>
 
-  
-<!-- Latest Sortable -->
-<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+  {% endfor %}
 
-{% for tweet in muddled_tweets %}
-	<br>
+  <script>
+    function compareOriginalTweetAndMuddledTweet() {
+      currentSlidableTweet = []
+      var listGroupItem = document.querySelectorAll('li.list-group-item')
+      // Makes list from the current li items position's.
+      for (let slidable of listGroupItem) {
+        let listItem = slidable.innerHTML;
+        currentSlidableTweet.push(listItem);
+      }
+      // Compares current slidable position with original tweets.
+      for (let [i, wordInTweet] of Object.entries((listGroupItem))) {
+        if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
+          wordInTweet = wordInTweet.style.backgroundColor = '#90EE90' //Green
+        } else {
+          wordInTweet = wordInTweet.style.backgroundColor = '#FFCCCB' //Red
+        }
 
-	<div class="alert alert-primary" role="alert">
-
-	<ul class="list-group">
-	{% for word in tweet %}
-
-		<li class="list-group-item">{{word}}</li>
-		
-	{% endfor %}
-	</ul>
-	</div>
-
-
-{% endfor %}
-
-<script>
-for (let tweetList of document.querySelectorAll('ul.list-group')){
-	Sortable.create(tweetList,{direction:'horizontal'})
-}
-</script>
+      }
+    }
+    // Makes <li> items slidable.
+    for (let tweetList of document.querySelectorAll('ul.list-group')) {
+      Sortable.create(tweetList, { direction: 'horizontal' });
+    }
+    // Add event listener on drag.
+    for (let slidable of document.querySelectorAll('li.list-group-item')) {
+      slidable.addEventListener('dragend', compareOriginalTweetAndMuddledTweet);
+    }
+  </script>
 </body>
+
 </html>
-
 {% endblock %}
-

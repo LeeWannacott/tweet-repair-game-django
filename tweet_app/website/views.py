@@ -33,13 +33,10 @@ def home(request):
 	except:
 	    print("Error during authentication")
 	
-	print('test')
-
 	tweets_list = []
-	testcrap = []
+	words = []
 	muddled_tweets =[]
-	# user = api.get_user(screen_name = 'theresa_may')  
-	# print(user.id)
+	tweet_answers = []
 
 	if request.method == 'POST':
 		topic = request.POST['topic']
@@ -50,41 +47,30 @@ def home(request):
 
 	try:
 	
-		for tweet in api.search(topic,lang='en', result_type= 'mixed',count=5):
-			#print(tweet.text)
-			tweet_text = tweet.text
+		for tweet in api.search(topic,lang='en', result_type= 'mixed',count=5,tweet_mode = 'extended'):
+			tweet_text = tweet.full_text
 			time = tweet.created_at
 			tweeter = tweet.user.screen_name
 			tweet_dict = {"tweet_text" : tweet_text}
-			#print(type(tweet_dict))
 			tweet_json = json.dumps(tweet_dict)
-			#print(type(tweet_json))
 			tweets_list.append(tweet_dict)
-			#print(type(tweets_list))
+
 
 		for word in tweets_list:
-			#print(word)
 			for key, value in word.items():
-				testcrap.append(value.split())
-				#print(testcrap)
+				words.append(value.split())
+				
+		for word in words:
 
-			
-		for words in testcrap:
-			#print(word)
-			answers = words[:-1]
-			print(answers)
-
-			newwords = words[:-1]
+			answers = word[:-1]
+			tweet_answers.append(answers)
+			newwords = word[:-1]
 			shuffle(newwords)
-			print(newwords)
-		
 			muddled_tweets.append(newwords)
-			#print(testcrap2)
 
-	except:
+	except: 
 	    time.sleep(60)
 
-
 	return render(request, 'home.html', {'api' : api, 'tweets_list':tweets_list,
-		'testcrap':testcrap, 'muddled_tweets':muddled_tweets, 'answers':answers,'newwords':newwords})
+		'tweet_answers':tweet_answers, 'muddled_tweets':muddled_tweets})
 
