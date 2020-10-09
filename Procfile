@@ -1,1 +1,1 @@
-web: gunicorn tweet_app.wsgi --log-file -
+web: gunicorn tweet_app.wsgi -b 0.0.0.0:$PORT -w 10
