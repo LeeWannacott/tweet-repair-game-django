@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'tweet_app.wsgi.application'
+WSGI_APPLICATION = 'tweet_app.wsgi.application'
 
 
 # Database
