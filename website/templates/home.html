@@ -31,6 +31,18 @@
 <body>
   <br />
   <h1>Fix users shuffled tweets:</h1>
+  <!-- 
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input type="radio" name="options" id="option1" checked> Active
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" id="option2"> Radio
+    </label>
+    <label class="btn btn-secondary">
+      <input type="radio" name="options" id="option3"> Radio
+    </label>
+  </div> -->
 
   {% if topic %} {{ topic }} {% endif %}
   <script>
@@ -41,11 +53,11 @@
   {% for tweet in tweet_answers %}
   {% for word in tweet %}
   <script>
-    //console.log('{{ word1 }}')
     originalTweetsInOrder.push('{{ word }}')
   </script>
   {% endfor %}
   {% endfor %}
+
 
   <!-- Latest Sortable -->
   <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
@@ -76,28 +88,38 @@
       // Compares current slidable position with original tweets.
       for (let [i, wordInTweet] of Object.entries((listGroupItem))) {
         if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
-          wordInTweet = wordInTweet.style.backgroundColor = '#90EE90' //Green
+          wordInTweet = wordInTweet.style.backgroundColor = '#90EE90'; //Green
         } else {
-          wordInTweet = wordInTweet.style.backgroundColor = '#FFCCCB' //Red
+          console.log(wordInTweet.style.backgroundColor)
+          wordInTweet = wordInTweet.style.backgroundColor = ''; //Red
         }
 
       }
 
     }
+
     // Makes <li> items slidable.
     for (let tweetList of document.querySelectorAll('ul.list-group')) {
-      Sortable.create(tweetList, { direction: 'horizontal', swap: 'true', swapClass: "sortable-swap-highlight" });
+      Sortable.create(tweetList, { direction: 'horizontal', swap: 'true' });
     }
-    // Add event listener on drag.
+    // Add event listener on dragend.
     for (let slidable of document.querySelectorAll('li.list-group-item')) {
+      let defaultColorofSlidable = slidable.style.backgroundColor;
       slidable.addEventListener('dragend', compareOriginalTweetAndMuddledTweet);
+      slidable.addEventListener('dragenter', function (event) {
+        console.log(slidable.style.backgroundColor)
+        if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
+          slidable.style.backgroundColor = '#9AB6F1';
+        }
+      });
+      slidable.addEventListener('dragleave', function (event) {
+        if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
+          slidable.style.backgroundColor = defaultColorofSlidable;
+        }
+      });
+
     }
   </script>
-  <style>
-    .sortable-swap-highlight {
-      background-color: #9AB6F1;
-    }
-  </style>
 </body>
 
 </html>
