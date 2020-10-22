@@ -1,6 +1,6 @@
 # tweet-repair-game-django
 
-Built during Global Game Jam 2020
+Got the idea from participating in Global Game Jam 2020.
 
 https://tweet-repair-game.herokuapp.com/
 
