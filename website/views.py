@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import random
 
 # Consumer API keys
 # API key:Cqo1hdMo0aWVvPA9ICLC0O0j6
@@ -46,11 +47,12 @@ def home(request):
 		print(topic)
 
 	try:
-	
-		for tweet in api.search(topic,lang='en', result_type= 'mixed',count=5,tweet_mode = 'extended'):
+		count = 10
+		for tweet in api.search(topic,lang='en', result_type= 'mixed',count=count,tweet_mode = 'extended'):
 			tweet_text = tweet.full_text
 			time = tweet.created_at
 			tweeter = tweet.user.screen_name
+			print(tweeter)
 			tweet_dict = {"tweet_text" : tweet_text}
 			tweet_json = json.dumps(tweet_dict)
 			tweets_list.append(tweet_dict)
@@ -61,13 +63,18 @@ def home(request):
 				words.append(value.split())
 				
 		for word in words:
-
 			answers = word[:-1]
 			tweet_answers.append(answers)
 			newwords = word[:-1]
 			shuffle(newwords)
 			muddled_tweets.append(newwords)
-
+		
+		random_tweet = random.randint(0,count)
+		muddled_tweets = [muddled_tweets[random_tweet]]
+		tweet_answers = [tweet_answers[random_tweet]]
+		print(tweet_answers)
+		print(muddled_tweets)
+		
 	except: 
 	    time.sleep(60)
 
