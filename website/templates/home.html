@@ -30,24 +30,13 @@
 
 <body>
   <br />
-  <h2>Fix users shuffled tweets:</h2>
+  <h2 style="margin-left:2rem;">Repair broken tweet:</h2>
   <hr>
-  <!-- 
-  <div class="btn-group btn-group-toggle" data-toggle="buttons">
-    <label class="btn btn-secondary active">
-      <input type="radio" name="options" id="option1" checked> Active
-    </label>
-    <label class="btn btn-secondary">
-      <input type="radio" name="options" id="option2"> Radio
-    </label>
-    <label class="btn btn-secondary">
-      <input type="radio" name="options" id="option3"> Radio
-    </label>
-  </div> -->
 
   {% if topic %} {{ topic }} {% endif %}
   <script>
     let originalTweetsInOrder = [];
+    let countOfUserRearrangingTweet = 0;
   </script>
 
   {% for tweet in tweet_answers %}
@@ -62,22 +51,26 @@
   <!-- Latest Sortable -->
   <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
   {% for tweet in muddled_tweets %}
-  <br />
+ <p style="margin-left:2em;">Attempts: <span id ="count">countOfUserRearrangingTweet</span></p>
+  <script>document.getElementById("count").innerHTML = countOfUserRearrangingTweet</script>
+  
   <div class="alert alert-primary" role="alert">
     <ul class="list-group">
       {% for word in tweet %}
-
       <li class="list-group-item">{{word}}</li>
       {% endfor %}
     </ul>
   </div>
-
   {% endfor %}
-
+  <br>
+  <button type="button" class="btn btn-primary" onClick="window.location.reload()" style="margin-left:2em;">New Tweet</button>
   <script>
     function compareOriginalTweetAndMuddledTweet() {
+      countOfUserRearrangingTweet += 1
+      document.getElementById("count").innerHTML = countOfUserRearrangingTweet
       currentSlidableTweet = []
       var listGroupItem = document.querySelectorAll('li.list-group-item')
+
       // Makes list from the current li items position's.
       for (let slidable of listGroupItem) {
         let listItem = slidable.innerHTML;
@@ -86,6 +79,8 @@
       // Compares current slidable position with original tweets.
       for (let [i, wordInTweet] of Object.entries((listGroupItem))) {
         if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
+         
+          
           wordInTweet = wordInTweet.style.backgroundColor = '#90EE90'; //Green
         } else {
           console.log(wordInTweet.style.backgroundColor)
@@ -106,8 +101,10 @@
       slidable.addEventListener('dragend', compareOriginalTweetAndMuddledTweet);
       slidable.addEventListener('dragenter', function (event) {
         console.log(slidable.style.backgroundColor)
+       
         if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
           slidable.style.backgroundColor = '#9AB6F1';
+        
         }
       });
       slidable.addEventListener('dragleave', function (event) {

@@ -41,18 +41,15 @@ def home(request):
 
 	if request.method == 'POST':
 		topic = request.POST['topic']
-		print(topic)
 	else:
 		topic = 'popular'
-		print(topic)
-
+	
 	try:
 		count = 10
 		for tweet in api.search(topic,lang='en', result_type= 'mixed',count=count,tweet_mode = 'extended'):
 			tweet_text = tweet.full_text
 			time = tweet.created_at
 			tweeter = tweet.user.screen_name
-			print(tweeter)
 			tweet_dict = {"tweet_text" : tweet_text}
 			tweet_json = json.dumps(tweet_dict)
 			tweets_list.append(tweet_dict)
@@ -63,17 +60,15 @@ def home(request):
 				words.append(value.split())
 				
 		for word in words:
-			answers = word[:-1]
+			answers = word[:]
 			tweet_answers.append(answers)
-			newwords = word[:-1]
+			newwords = word[:]
 			shuffle(newwords)
 			muddled_tweets.append(newwords)
 		
 		random_tweet = random.randint(0,count)
 		muddled_tweets = [muddled_tweets[random_tweet]]
 		tweet_answers = [tweet_answers[random_tweet]]
-		print(tweet_answers)
-		print(muddled_tweets)
 		
 	except: 
 	    time.sleep(60)
