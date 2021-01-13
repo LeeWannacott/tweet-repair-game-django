@@ -98,7 +98,9 @@
     // Add event listener on dragend.
     for (let slidable of document.querySelectorAll('li.list-group-item')) {
       let defaultColorofSlidable = slidable.style.backgroundColor;
+      // Evaluate tweet order if word correct colour green.
       slidable.addEventListener('dragend', compareOriginalTweetAndMuddledTweet);
+      // Support for touchscreens.
       slidable.addEventListener('touchend', compareOriginalTweetAndMuddledTweet);
       slidable.addEventListener('dragenter', function (event) {
         console.log(slidable.style.backgroundColor)
@@ -108,6 +110,7 @@
         
         }
       });
+      // Shows visual indication of selected draggable on touchscreens.
       slidable.addEventListener('touchstart', function (event) {
         console.log(slidable.style.backgroundColor)
        
@@ -116,6 +119,7 @@
         
         }
       });
+      // Colours words back to white when leave each slideable on hover.
       slidable.addEventListener('dragleave', function (event) {
         if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
           slidable.style.backgroundColor = defaultColorofSlidable;
