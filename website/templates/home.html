@@ -99,7 +99,16 @@
     for (let slidable of document.querySelectorAll('li.list-group-item')) {
       let defaultColorofSlidable = slidable.style.backgroundColor;
       slidable.addEventListener('dragend', compareOriginalTweetAndMuddledTweet);
+      slidable.addEventListener('touchend', compareOriginalTweetAndMuddledTweet);
       slidable.addEventListener('dragenter', function (event) {
+        console.log(slidable.style.backgroundColor)
+       
+        if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
+          slidable.style.backgroundColor = '#9AB6F1';
+        
+        }
+      });
+      slidable.addEventListener('touchstart', function (event) {
         console.log(slidable.style.backgroundColor)
        
         if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
