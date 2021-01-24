@@ -23,6 +23,21 @@
                 flex-direction: row;
                 flex-wrap: wrap;
             }
+            /* styles draggable */
+            .sortable-ghost {
+             background: #C8EBFB;   opacity: 0.6;
+            }
+            {% comment %}.sortable-chosen {{% endcomment %}
+                {% comment %}opacity: 0.8;{% endcomment %}
+                {% comment %}background-color:red;{% endcomment %}
+            {% comment %}}{% endcomment %}
+            .sortable-drag {
+                {% comment %}background-color:lightcyan;{% endcomment %}
+            }
+            .highlighted {
+             background: skyblue;   opacity: 0.8;
+            }
+
         </style>
     </head>
 
@@ -42,7 +57,7 @@
         {% for tweet in tweet_answers %} {% for word in tweet %}
         <script>
             tweetLength += 1;
-            bestScore = tweetLength
+            bestScore = tweetLength;
             originalTweetsInOrder.push("{{ word }}");
         </script>
         {% endfor %} {% endfor %}
@@ -51,9 +66,11 @@
         <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
         {% for tweet in muddled_tweets %}
         <div style="display: flex; justify-contents: space-between">
-            <p style="margin-left: 2em;margin-right: 1em"> Tweet Word Count: <span id="tweetLength"></span></p>
+            <p style="margin-left: 2em; margin-right: 1em">
+                Tweet Word Count: <span id="tweetLength"></span>
+            </p>
             <p style="margin-right: 1em">Attempts: <span id="count"></span></p>
-            <p style="margin-right: 1em"> Score: <span id="score"></span></p>
+            <p style="margin-right: 1em">Score: <span id="score"></span></p>
         </div>
 
         <script>
@@ -106,20 +123,28 @@
                     if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
                         wordInTweet = wordInTweet.style.backgroundColor =
                             "#90EE90"; //Green
+                        countOfUserRearrangingTweet -= 1;
                     } else {
                         // console.log(wordInTweet.style.backgroundColor);
-                        wordInTweet = wordInTweet.style.backgroundColor = ""; //Red
+                        wordInTweet = wordInTweet.style.backgroundColor = "";
+                        //white
                     }
                 }
             }
-
+            
             // Makes <li> items slidable.
             for (let tweetList of document.querySelectorAll("ul.list-group")) {
-                Sortable.create(tweetList, {
+                 SortableTweetList = Sortable.create(tweetList, {
                     direction: "horizontal",
                     swap: "true",
+                    ghostClass: "sortable-ghost",  // Class name for the drop placeholder
+                    chosenClass: "sortable-chosen",  // Class name for the chosen item
+                    dragClass: "sortable-drag",  // Class name for the dragging item
+                    swapClass: "highlighted"
                 });
             }
+
+            console.log(SortableTweetList) 
             // Add event listener on dragend.
             for (let slidable of document.querySelectorAll(
                 "li.list-group-item"
@@ -135,15 +160,7 @@
                     "touchend",
                     compareOriginalTweetAndMuddledTweet
                 );
-                slidable.addEventListener("dragenter", function (event) {
-                    // console.log(slidable.style.backgroundColor);
 
-                    if (
-                        slidable.style.backgroundColor !== "rgb(144, 238, 144)"
-                    ) {
-                        slidable.style.backgroundColor = "#9AB6F1";
-                    }
-                });
                 // Shows visual indication of selected draggable on touchscreens.
                 slidable.addEventListener("touchstart", function (event) {
                     // console.log(slidable.style.backgroundColor);
