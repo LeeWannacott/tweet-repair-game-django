@@ -2,133 +2,168 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <style>
+            /* Make Horizontal. */
+            li.list-group-item {
+                margin-left: 0;
+                margin-right: 0;
+                padding-left: 0;
+                padding-right: 0;
+            }
 
-<head>
-  <style>
-    /* Make Horizontal. */
-    li.list-group-item {
-      margin-left: 0;
-      margin-right: 0;
-      padding-left: 0;
-      padding-right: 0;
-    }
+            li.list-group-item {
+                flex-grow: 1;
+                list-style-type: none;
+                text-align: center;
+            }
 
-    li.list-group-item {
-      flex-grow: 1;
-      list-style-type: none;
-      text-align: center;
-    }
+            ul.list-group {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+        </style>
+    </head>
 
-    ul.list-group {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-  </style>
+    <body>
+        <br />
+        <h2 style="margin-left: 2rem">Repair broken tweet:</h2>
+        <hr />
 
-</head>
+        {% if topic %} {{ topic }} {% endif %}
+        <script>
+            let originalTweetsInOrder = [];
+            let countOfUserRearrangingTweet = 0;
+            let tweetLength = 0;
+            let score = 0;
+        </script>
 
-<body>
-  <br />
-  <h2 style="margin-left:2rem;">Repair broken tweet:</h2>
-  <hr>
+        {% for tweet in tweet_answers %} {% for word in tweet %}
+        <script>
+            tweetLength += 1;
+            bestScore = tweetLength
+            originalTweetsInOrder.push("{{ word }}");
+        </script>
+        {% endfor %} {% endfor %}
 
-  {% if topic %} {{ topic }} {% endif %}
-  <script>
-    let originalTweetsInOrder = [];
-    let countOfUserRearrangingTweet = 0;
-  </script>
+        <!-- Latest Sortable -->
+        <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+        {% for tweet in muddled_tweets %}
+        <div style="display: flex; justify-contents: space-between">
+            <p style="margin-left: 2em;margin-right: 1em"> Tweet Word Count: <span id="tweetLength"></span></p>
+            <p style="margin-right: 1em">Attempts: <span id="count"></span></p>
+            <p style="margin-right: 1em"> Score: <span id="score"></span></p>
+        </div>
 
-  {% for tweet in tweet_answers %}
-  {% for word in tweet %}
-  <script>
-    originalTweetsInOrder.push('{{ word }}')
-  </script>
-  {% endfor %}
-  {% endfor %}
+        <script>
+            document.getElementById(
+                "count"
+            ).innerHTML = countOfUserRearrangingTweet;
 
+            document.getElementById("tweetLength").innerHTML = tweetLength;
+            score = tweetLength - countOfUserRearrangingTweet;
+            document.getElementById("score").innerHTML = score;
+        </script>
 
-  <!-- Latest Sortable -->
-  <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
-  {% for tweet in muddled_tweets %}
- <p style="margin-left:2em;">Attempts: <span id ="count">countOfUserRearrangingTweet</span></p>
-  <script>document.getElementById("count").innerHTML = countOfUserRearrangingTweet</script>
-  
-  <div class="alert alert-primary" role="alert">
-    <ul class="list-group">
-      {% for word in tweet %}
-      <li class="list-group-item">{{word}}</li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endfor %}
-  <br>
-  <button type="button" class="btn btn-primary" onClick="window.location.reload()" style="margin-left:2em;">New Tweet</button>
-  <script>
-    function compareOriginalTweetAndMuddledTweet() {
-      countOfUserRearrangingTweet += 1
-      document.getElementById("count").innerHTML = countOfUserRearrangingTweet
-      currentSlidableTweet = []
-      var listGroupItem = document.querySelectorAll('li.list-group-item')
+        <div class="alert alert-primary" role="alert">
+            <ul class="list-group">
+                {% for word in tweet %}
+                <li class="list-group-item">{{word}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        <br />
+        <button
+            type="button"
+            class="btn btn-primary"
+            onClick="window.location.reload()"
+            style="margin-left: 2em"
+        >
+            New Tweet
+        </button>
+        <script>
+            function compareOriginalTweetAndMuddledTweet() {
+                countOfUserRearrangingTweet += 1;
+                score = tweetLength - countOfUserRearrangingTweet;
+                document.getElementById(
+                    "count"
+                ).innerHTML = countOfUserRearrangingTweet;
+                document.getElementById("score").innerHTML = score;
+                currentSlidableTweet = [];
+                var listGroupItem = document.querySelectorAll(
+                    "li.list-group-item"
+                );
 
-      // Makes list from the current li items position's.
-      for (let slidable of listGroupItem) {
-        let listItem = slidable.innerHTML;
-        currentSlidableTweet.push(listItem);
-      }
-      // Compares current slidable position with original tweets.
-      for (let [i, wordInTweet] of Object.entries((listGroupItem))) {
-        if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
-         
-          
-          wordInTweet = wordInTweet.style.backgroundColor = '#90EE90'; //Green
-        } else {
-          console.log(wordInTweet.style.backgroundColor)
-          wordInTweet = wordInTweet.style.backgroundColor = ''; //Red
-        }
+                // Makes list from the current li items position's.
+                for (let slidable of listGroupItem) {
+                    let listItem = slidable.innerHTML;
+                    currentSlidableTweet.push(listItem);
+                }
+                // Compares current slidable position with original tweets.
+                for (let [i, wordInTweet] of Object.entries(listGroupItem)) {
+                    if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
+                        wordInTweet = wordInTweet.style.backgroundColor =
+                            "#90EE90"; //Green
+                    } else {
+                        // console.log(wordInTweet.style.backgroundColor);
+                        wordInTweet = wordInTweet.style.backgroundColor = ""; //Red
+                    }
+                }
+            }
 
-      }
+            // Makes <li> items slidable.
+            for (let tweetList of document.querySelectorAll("ul.list-group")) {
+                Sortable.create(tweetList, {
+                    direction: "horizontal",
+                    swap: "true",
+                });
+            }
+            // Add event listener on dragend.
+            for (let slidable of document.querySelectorAll(
+                "li.list-group-item"
+            )) {
+                let defaultColorofSlidable = slidable.style.backgroundColor;
+                // Evaluate tweet order if word correct colour green.
+                slidable.addEventListener(
+                    "dragend",
+                    compareOriginalTweetAndMuddledTweet
+                );
+                // Support for touchscreens.
+                slidable.addEventListener(
+                    "touchend",
+                    compareOriginalTweetAndMuddledTweet
+                );
+                slidable.addEventListener("dragenter", function (event) {
+                    // console.log(slidable.style.backgroundColor);
 
-    }
+                    if (
+                        slidable.style.backgroundColor !== "rgb(144, 238, 144)"
+                    ) {
+                        slidable.style.backgroundColor = "#9AB6F1";
+                    }
+                });
+                // Shows visual indication of selected draggable on touchscreens.
+                slidable.addEventListener("touchstart", function (event) {
+                    // console.log(slidable.style.backgroundColor);
 
-    // Makes <li> items slidable.
-    for (let tweetList of document.querySelectorAll('ul.list-group')) {
-      Sortable.create(tweetList, { direction: 'horizontal', swap: 'true' });
-    }
-    // Add event listener on dragend.
-    for (let slidable of document.querySelectorAll('li.list-group-item')) {
-      let defaultColorofSlidable = slidable.style.backgroundColor;
-      // Evaluate tweet order if word correct colour green.
-      slidable.addEventListener('dragend', compareOriginalTweetAndMuddledTweet);
-      // Support for touchscreens.
-      slidable.addEventListener('touchend', compareOriginalTweetAndMuddledTweet);
-      slidable.addEventListener('dragenter', function (event) {
-        console.log(slidable.style.backgroundColor)
-       
-        if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
-          slidable.style.backgroundColor = '#9AB6F1';
-        
-        }
-      });
-      // Shows visual indication of selected draggable on touchscreens.
-      slidable.addEventListener('touchstart', function (event) {
-        console.log(slidable.style.backgroundColor)
-       
-        if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
-          slidable.style.backgroundColor = '#9AB6F1';
-        
-        }
-      });
-      // Colours words back to white when leave each slideable on hover.
-      slidable.addEventListener('dragleave', function (event) {
-        if (slidable.style.backgroundColor !== 'rgb(144, 238, 144)') {
-          slidable.style.backgroundColor = defaultColorofSlidable;
-        }
-      });
-
-    }
-  </script>
-</body>
-
+                    if (
+                        slidable.style.backgroundColor !== "rgb(144, 238, 144)"
+                    ) {
+                        slidable.style.backgroundColor = "#9AB6F1";
+                    }
+                });
+                // Colours words back to white when leave each slideable on hover.
+                slidable.addEventListener("dragleave", function (event) {
+                    if (
+                        slidable.style.backgroundColor !== "rgb(144, 238, 144)"
+                    ) {
+                        slidable.style.backgroundColor = defaultColorofSlidable;
+                    }
+                });
+            }
+        </script>
+    </body>
 </html>
 {% endblock %}
