@@ -156,10 +156,10 @@
                     compareOriginalTweetAndMuddledTweet
                 );
                 // Support for touchscreens.
-                {% comment %}slidable.addEventListener({% endcomment %}
-                    {% comment %}"touchend",{% endcomment %}
-                    {% comment %}compareOriginalTweetAndMuddledTweet{% endcomment %}
-                {% comment %});{% endcomment %}
+                slidable.addEventListener(
+                    "touchend",
+                    compareOriginalTweetAndMuddledTweet
+                );
 
                 // Shows visual indication of selected draggable on touchscreens.
                 {% comment %}slidable.addEventListener("touchstart", function (event) {{% endcomment %}
