@@ -25,7 +25,7 @@
             }
             /* styles draggable */
             .sortable-ghost {
-             background: #C8EBFB;   opacity: 0.6;
+             background: #cce5ff;   opacity: 0.6;
             }
             {% comment %}.sortable-chosen {{% endcomment %}
                 {% comment %}opacity: 0.8;{% endcomment %}
@@ -156,29 +156,29 @@
                     compareOriginalTweetAndMuddledTweet
                 );
                 // Support for touchscreens.
-                slidable.addEventListener(
-                    "touchend",
-                    compareOriginalTweetAndMuddledTweet
-                );
+                {% comment %}slidable.addEventListener({% endcomment %}
+                    {% comment %}"touchend",{% endcomment %}
+                    {% comment %}compareOriginalTweetAndMuddledTweet{% endcomment %}
+                {% comment %});{% endcomment %}
 
                 // Shows visual indication of selected draggable on touchscreens.
-                slidable.addEventListener("touchstart", function (event) {
-                    // console.log(slidable.style.backgroundColor);
+                {% comment %}slidable.addEventListener("touchstart", function (event) {{% endcomment %}
+                    {% comment %}// console.log(slidable.style.backgroundColor);{% endcomment %}
 
-                    if (
-                        slidable.style.backgroundColor !== "rgb(144, 238, 144)"
-                    ) {
-                        slidable.style.backgroundColor = "#9AB6F1";
-                    }
-                });
+                    {% comment %}if ({% endcomment %}
+                        {% comment %}slidable.style.backgroundColor !== "rgb(144, 238, 144)"{% endcomment %}
+                    {% comment %}) {{% endcomment %}
+                        {% comment %}slidable.style.backgroundColor = "#9AB6F1";{% endcomment %}
+                    {% comment %}}{% endcomment %}
+                {% comment %}});{% endcomment %}
                 // Colours words back to white when leave each slideable on hover.
-                slidable.addEventListener("dragleave", function (event) {
-                    if (
-                        slidable.style.backgroundColor !== "rgb(144, 238, 144)"
-                    ) {
-                        slidable.style.backgroundColor = defaultColorofSlidable;
-                    }
-                });
+                {% comment %}slidable.addEventListener("dragleave", function (event) {{% endcomment %}
+                    {% comment %}if ({% endcomment %}
+                        {% comment %}slidable.style.backgroundColor !== "rgb(144, 238, 144)"{% endcomment %}
+                    {% comment %}) {{% endcomment %}
+                        {% comment %}slidable.style.backgroundColor = defaultColorofSlidable;{% endcomment %}
+                    {% comment %}}{% endcomment %}
+                {% comment %}});{% endcomment %}
             }
         </script>
     </body>
