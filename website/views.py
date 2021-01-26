@@ -54,6 +54,7 @@ def home(request):
                         tweet_json = json.dumps(tweet_dict)
                         tweets_list.append(tweet_dict)
 
+                import json
 
                 for word in tweets_list:
                         for key, value in word.items():
@@ -73,7 +74,8 @@ def home(request):
                 if(len(tweet_answers)==0 or len(muddled_tweets)==0):
                     muddled_tweets = [["No","Returned","Tweets","Topic"]]
                     tweet_answers = [["Topic","Returned","No","Tweets"]]
-                
+
+
         except: 
             time.sleep(60)
 

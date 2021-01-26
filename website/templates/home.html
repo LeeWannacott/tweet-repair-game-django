@@ -27,17 +27,13 @@
             .sortable-ghost {
              background: #cce5ff;   opacity: 0.6;
             }
-            {% comment %}.sortable-chosen {{% endcomment %}
-                {% comment %}opacity: 0.8;{% endcomment %}
-                {% comment %}background-color:red;{% endcomment %}
-            {% comment %}}{% endcomment %}
+
             .sortable-drag {
                 {% comment %}background-color:lightcyan;{% endcomment %}
             }
             .highlighted {
              background: skyblue;   opacity: 0.8;
             }
-
         </style>
     </head>
 
@@ -49,15 +45,17 @@
         {% if topic %} {{ topic }} {% endif %}
         <script>
             let originalTweetsInOrder = [];
-            let countOfUserRearrangingTweet = 0;
+            let attempts = 0;
             let tweetLength = 0;
             let score = 0;
+
+            {% comment %}var tweetAnswers = JSON.parse("{{tweet_answers}}");{% endcomment %}
+            {% comment %}console.log(tweetAnswers);{% endcomment %}
         </script>
 
         {% for tweet in tweet_answers %} {% for word in tweet %}
         <script>
             tweetLength += 1;
-            bestScore = tweetLength;
             originalTweetsInOrder.push("{{ word }}");
         </script>
         {% endfor %} {% endfor %}
@@ -69,17 +67,18 @@
             <p style="margin-left: 2em; margin-right: 1em">
                 Tweet Word Count: <span id="tweetLength"></span>
             </p>
-            <p style="margin-right: 1em">Attempts: <span id="count"></span></p>
-            <p style="margin-right: 1em">Score: <span id="score"></span></p>
+            <p style="margin-right: 1em">
+                - Attempts: <span id="count"></span>
+            </p>
+            <p style="margin-right: 1em">= Score: <span id="score"></span></p>
         </div>
 
         <script>
-            document.getElementById(
-                "count"
-            ).innerHTML = countOfUserRearrangingTweet;
+            document.getElementById("count").innerHTML = attempts;
 
             document.getElementById("tweetLength").innerHTML = tweetLength;
-            score = tweetLength - countOfUserRearrangingTweet;
+
+            score = tweetLength - attempts;
             document.getElementById("score").innerHTML = score;
         </script>
 
@@ -102,11 +101,9 @@
         </button>
         <script>
             function compareOriginalTweetAndMuddledTweet() {
-                countOfUserRearrangingTweet += 1;
-                score = tweetLength - countOfUserRearrangingTweet;
-                document.getElementById(
-                    "count"
-                ).innerHTML = countOfUserRearrangingTweet;
+                attempts += 1;
+                score = tweetLength - attempts;
+                document.getElementById("count").innerHTML = attempts;
                 document.getElementById("score").innerHTML = score;
                 currentSlidableTweet = [];
                 var listGroupItem = document.querySelectorAll(
@@ -123,7 +120,6 @@
                     if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
                         wordInTweet = wordInTweet.style.backgroundColor =
                             "#90EE90"; //Green
-                        countOfUserRearrangingTweet -= 1;
                     } else {
                         // console.log(wordInTweet.style.backgroundColor);
                         wordInTweet = wordInTweet.style.backgroundColor = "";
@@ -131,21 +127,71 @@
                     }
                 }
             }
-            
+
+            var SortableTweetListOptions = {
+            group: 'share',
+            direction: "horizontal",
+            swap: "true",
+            ghostClass: "sortable-ghost", // Class name for the drop placeholder
+            chosenClass: "sortable-chosen", // Class name for the chosen item
+            dragClass: "sortable-drag", // Class name for the dragging item
+            swapClass: "highlighted",
+            };
+
+            var listGroupItem = document.querySelectorAll(
+                "li.list-group-item"
+            )
+            events = [
+                "onChoose",
+                "onStart",
+                "onEnd",
+                "onAdd",
+                "onUpdate",
+                "onSort",
+                "onRemove",
+                "onChange",
+                "onUnchoose",
+            ].forEach(function (name) {
+                SortableTweetListOptions[name] = function (evt) {
+                    {% comment %}console.log({{% endcomment %}
+                        {% comment %}event: name,{% endcomment %}
+                        {% comment %}this: this,{% endcomment %}
+                        {% comment %}item: evt.item,{% endcomment %}
+                        {% comment %}from: evt.from,{% endcomment %}
+                        {% comment %}to: evt.to,{% endcomment %}
+                        {% comment %}oldIndex: evt.oldIndex,{% endcomment %}
+                        {% comment %}newIndex: evt.newIndex,{% endcomment %}
+                    {% comment %}});{% endcomment %}
+
+                    {% comment %}if (name =="onEnd"){{% endcomment %}
+                    {% comment %}if(listGroupItem[evt.oldIndex].innerHTML === originalTweetsInOrder[evt.newIndex]){{% endcomment %}
+                        {% comment %}console.log('bruh'){% endcomment %}
+                    {% comment %}}{% endcomment %}
+
+                    {% comment %}if(listGroupItem[evt.newIndex].innerHTML ==={% endcomment %}
+                        {% comment %}originalTweetsInOrder[evt.oldIndex]){{% endcomment %}
+                        {% comment %}console.log('nah'){% endcomment %}
+                    {% comment %}}{% endcomment %}
+                    {% comment %}console.log({% endcomment %}
+                        {% comment %}`swappable: ${listGroupItem[evt.oldIndex].innerHTML}`,{% endcomment %}
+                        {% comment %}`original tweet: ${originalTweetsInOrder[evt.newIndex]}`,{% endcomment %}
+
+                        {% comment %}`swappable: ${listGroupItem[evt.newIndex].innerHTML}`,{% endcomment %}
+                        {% comment %}`original tweet: ${originalTweetsInOrder[evt.oldIndex]}`,{% endcomment %}
+                        {% comment %}originalTweetsInOrder,{% endcomment %}
+                        {% comment %});{% endcomment %}
+                        
+                       
+
+                };
+            });
+
             // Makes <li> items slidable.
             for (let tweetList of document.querySelectorAll("ul.list-group")) {
-                 SortableTweetList = Sortable.create(tweetList, {
-                    direction: "horizontal",
-                    swap: "true",
-                    ghostClass: "sortable-ghost",  // Class name for the drop placeholder
-                    chosenClass: "sortable-chosen",  // Class name for the chosen item
-                    dragClass: "sortable-drag",  // Class name for the dragging item
-                    swapClass: "highlighted"
-                });
+                SortableTweetList = Sortable.create(tweetList, SortableTweetListOptions);
             }
 
-            console.log(SortableTweetList) 
-            // Add event listener on dragend.
+            console.log(typeof SortableTweetList);
             for (let slidable of document.querySelectorAll(
                 "li.list-group-item"
             )) {
@@ -155,30 +201,12 @@
                     "dragend",
                     compareOriginalTweetAndMuddledTweet
                 );
+
                 // Support for touchscreens.
                 slidable.addEventListener(
                     "touchend",
                     compareOriginalTweetAndMuddledTweet
                 );
-
-                // Shows visual indication of selected draggable on touchscreens.
-                {% comment %}slidable.addEventListener("touchstart", function (event) {{% endcomment %}
-                    {% comment %}// console.log(slidable.style.backgroundColor);{% endcomment %}
-
-                    {% comment %}if ({% endcomment %}
-                        {% comment %}slidable.style.backgroundColor !== "rgb(144, 238, 144)"{% endcomment %}
-                    {% comment %}) {{% endcomment %}
-                        {% comment %}slidable.style.backgroundColor = "#9AB6F1";{% endcomment %}
-                    {% comment %}}{% endcomment %}
-                {% comment %}});{% endcomment %}
-                // Colours words back to white when leave each slideable on hover.
-                {% comment %}slidable.addEventListener("dragleave", function (event) {{% endcomment %}
-                    {% comment %}if ({% endcomment %}
-                        {% comment %}slidable.style.backgroundColor !== "rgb(144, 238, 144)"{% endcomment %}
-                    {% comment %}) {{% endcomment %}
-                        {% comment %}slidable.style.backgroundColor = defaultColorofSlidable;{% endcomment %}
-                    {% comment %}}{% endcomment %}
-                {% comment %}});{% endcomment %}
             }
         </script>
     </body>
