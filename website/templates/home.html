@@ -48,9 +48,6 @@
             let attempts = 0;
             let tweetLength = 0;
             let score = 0;
-
-            {% comment %}var tweetAnswers = JSON.parse("{{tweet_answers}}");{% endcomment %}
-            {% comment %}console.log(tweetAnswers);{% endcomment %}
         </script>
 
         {% for tweet in tweet_answers %} {% for word in tweet %}
@@ -63,14 +60,14 @@
         <!-- Latest Sortable -->
         <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
         {% for tweet in muddled_tweets %}
-        <div style="display: flex; justify-contents: space-between">
+        <div style="display: flex; justify-content: space-around">
             <p style="margin-left: 2em; margin-right: 1em">
                 Tweet Word Count: <span id="tweetLength"></span>
             </p>
-            <p style="margin-right: 1em">
-                - Attempts: <span id="count"></span>
-            </p>
-            <p style="margin-right: 1em">= Score: <span id="score"></span></p>
+            <p>-</p>
+            <p style="margin-right: 1em">Attempts: <span id="count"></span></p>
+            <p>=</p>
+            <p style="margin-right: 1em">Score: <span id="score"></span></p>
         </div>
 
         <script>
@@ -115,6 +112,7 @@
                     let listItem = slidable.innerHTML;
                     currentSlidableTweet.push(listItem);
                 }
+                let repairedTheTweet = true
                 // Compares current slidable position with original tweets.
                 for (let [i, wordInTweet] of Object.entries(listGroupItem)) {
                     if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
@@ -123,10 +121,15 @@
                     } else {
                         // console.log(wordInTweet.style.backgroundColor);
                         wordInTweet = wordInTweet.style.backgroundColor = "";
-                        //white
+                        repairedTheTweet = false;
                     }
                 }
-            }
+                    if (repairedTheTweet === true){
+                    console.log("repairedTheTweet");
+                        console.log("same")
+                    }
+
+                    }
 
             var SortableTweetListOptions = {
             group: 'share',
@@ -180,8 +183,7 @@
                         {% comment %}`original tweet: ${originalTweetsInOrder[evt.oldIndex]}`,{% endcomment %}
                         {% comment %}originalTweetsInOrder,{% endcomment %}
                         {% comment %});{% endcomment %}
-                        
-                       
+
 
                 };
             });
