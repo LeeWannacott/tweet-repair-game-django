@@ -35,6 +35,7 @@ def home(request):
             print("Error during authentication")
         
         tweets_list = []
+        tweeter_list = []
         words = []
         muddled_tweets =[]
         tweet_answers = []
@@ -53,6 +54,7 @@ def home(request):
                         tweet_dict = {"tweet_text" : tweet_text}
                         tweet_json = json.dumps(tweet_dict)
                         tweets_list.append(tweet_dict)
+                        tweeter_list.append(tweeter)
 
                 import json
 
@@ -80,5 +82,6 @@ def home(request):
             time.sleep(60)
 
         return render(request, 'home.html', {'api' : api, 'tweets_list':tweets_list,
-                'tweet_answers':tweet_answers, 'muddled_tweets':muddled_tweets})
+                'tweet_answers':tweet_answers, 'muddled_tweets':muddled_tweets,
+                'tweeter_list':tweeter_list})
 

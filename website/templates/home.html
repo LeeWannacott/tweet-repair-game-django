@@ -53,7 +53,7 @@
         {% for tweet in tweet_answers %} {% for word in tweet %}
         <script>
             tweetLength += 1;
-            originalTweetsInOrder.push("{{ word }}");
+            originalTweetsInOrder.push("{{ word|safe }}");
         </script>
         {% endfor %} {% endfor %}
 
@@ -71,6 +71,9 @@
         </div>
 
         <script>
+            console.log(originalTweetsInOrder.join(" "))
+            var tweeter1 = "{{tweeter_list|safe}}"
+            console.log(tweeter1)
             document.getElementById("count").innerHTML = attempts;
 
             document.getElementById("tweetLength").innerHTML = tweetLength;
