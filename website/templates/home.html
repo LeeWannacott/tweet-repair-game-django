@@ -71,13 +71,8 @@
         </div>
 
         <script>
-            console.log(originalTweetsInOrder.join(" "))
-            var tweeter1 = "{{tweeter_list|safe}}"
-            console.log(tweeter1)
             document.getElementById("count").innerHTML = attempts;
-
             document.getElementById("tweetLength").innerHTML = tweetLength;
-
             score = tweetLength - attempts;
             document.getElementById("score").innerHTML = score;
         </script>
@@ -115,7 +110,7 @@
                     let listItem = slidable.innerHTML;
                     currentSlidableTweet.push(listItem);
                 }
-                let repairedTheTweet = true
+                let repairedTheTweet = true;
                 // Compares current slidable position with original tweets.
                 for (let [i, wordInTweet] of Object.entries(listGroupItem)) {
                     if (originalTweetsInOrder[i] == currentSlidableTweet[i]) {
@@ -127,26 +122,22 @@
                         repairedTheTweet = false;
                     }
                 }
-                    if (repairedTheTweet === true){
-                    console.log("repairedTheTweet");
-                        console.log("same")
-                    }
-
-                    }
+                if (repairedTheTweet === true) {
+                    // Can add future feature for logging score.
+                }
+            }
 
             var SortableTweetListOptions = {
-            group: 'share',
-            direction: "horizontal",
-            swap: "true",
-            ghostClass: "sortable-ghost", // Class name for the drop placeholder
-            chosenClass: "sortable-chosen", // Class name for the chosen item
-            dragClass: "sortable-drag", // Class name for the dragging item
-            swapClass: "highlighted",
+                group: "share",
+                direction: "horizontal",
+                swap: "true",
+                ghostClass: "sortable-ghost", // Class name for the drop placeholder
+                chosenClass: "sortable-chosen", // Class name for the chosen item
+                dragClass: "sortable-drag", // Class name for the dragging item
+                swapClass: "highlighted",
             };
 
-            var listGroupItem = document.querySelectorAll(
-                "li.list-group-item"
-            )
+            var listGroupItem = document.querySelectorAll("li.list-group-item");
             events = [
                 "onChoose",
                 "onStart",
@@ -159,44 +150,19 @@
                 "onUnchoose",
             ].forEach(function (name) {
                 SortableTweetListOptions[name] = function (evt) {
-                    {% comment %}console.log({{% endcomment %}
-                        {% comment %}event: name,{% endcomment %}
-                        {% comment %}this: this,{% endcomment %}
-                        {% comment %}item: evt.item,{% endcomment %}
-                        {% comment %}from: evt.from,{% endcomment %}
-                        {% comment %}to: evt.to,{% endcomment %}
-                        {% comment %}oldIndex: evt.oldIndex,{% endcomment %}
-                        {% comment %}newIndex: evt.newIndex,{% endcomment %}
-                    {% comment %}});{% endcomment %}
-
-                    {% comment %}if (name =="onEnd"){{% endcomment %}
-                    {% comment %}if(listGroupItem[evt.oldIndex].innerHTML === originalTweetsInOrder[evt.newIndex]){{% endcomment %}
-                        {% comment %}console.log('bruh'){% endcomment %}
-                    {% comment %}}{% endcomment %}
-
-                    {% comment %}if(listGroupItem[evt.newIndex].innerHTML ==={% endcomment %}
-                        {% comment %}originalTweetsInOrder[evt.oldIndex]){{% endcomment %}
-                        {% comment %}console.log('nah'){% endcomment %}
-                    {% comment %}}{% endcomment %}
-                    {% comment %}console.log({% endcomment %}
-                        {% comment %}`swappable: ${listGroupItem[evt.oldIndex].innerHTML}`,{% endcomment %}
-                        {% comment %}`original tweet: ${originalTweetsInOrder[evt.newIndex]}`,{% endcomment %}
-
-                        {% comment %}`swappable: ${listGroupItem[evt.newIndex].innerHTML}`,{% endcomment %}
-                        {% comment %}`original tweet: ${originalTweetsInOrder[evt.oldIndex]}`,{% endcomment %}
-                        {% comment %}originalTweetsInOrder,{% endcomment %}
-                        {% comment %});{% endcomment %}
-
-
+                    // https://jsbin.com/fogujiv/edit?js,output
+                    // url for anything needed in future for events.
                 };
             });
 
             // Makes <li> items slidable.
             for (let tweetList of document.querySelectorAll("ul.list-group")) {
-                SortableTweetList = Sortable.create(tweetList, SortableTweetListOptions);
+                SortableTweetList = Sortable.create(
+                    tweetList,
+                    SortableTweetListOptions
+                );
             }
 
-            console.log(typeof SortableTweetList);
             for (let slidable of document.querySelectorAll(
                 "li.list-group-item"
             )) {
