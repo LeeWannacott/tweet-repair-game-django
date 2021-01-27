@@ -53,7 +53,7 @@
         {% for tweet in tweet_answers %} {% for word in tweet %}
         <script>
             tweetLength += 1;
-            originalTweetsInOrder.push("{{ word|safe }}");
+            originalTweetsInOrder.push("{{ word }}");
         </script>
         {% endfor %} {% endfor %}
 
