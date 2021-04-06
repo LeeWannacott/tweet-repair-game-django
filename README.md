@@ -6,5 +6,8 @@ https://tweet-repair-game.herokuapp.com/
 
 ```Fix tweet:```
 
-![fix_tweet](https://user-images.githubusercontent.com/49783296/113650726-d084b500-96e4-11eb-9fa2-ba09ced3b7d6.gif)
+
+![fix_the_tweet](https://user-images.githubusercontent.com/49783296/113652550-142cee00-96e8-11eb-8d66-19062dc4991b.gif)
+
+
 
