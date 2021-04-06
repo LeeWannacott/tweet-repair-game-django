@@ -1,6 +1,6 @@
 # tweet-repair-game-django
 
-The idea arose from participating in Global Game Jam 2020. 
+The idea for this app arose from participating in Global Game Jam 2020. 
 
 Link to application: https://tweet-repair-game.herokuapp.com/
 
