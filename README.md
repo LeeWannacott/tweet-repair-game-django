@@ -1,6 +1,8 @@
 # tweet-repair-game-django
 
-Idea arose from participating in Global Game Jam 2020. https://tweet-repair-game.herokuapp.com/
+The idea arose from participating in Global Game Jam 2020. 
+
+Link to application: https://tweet-repair-game.herokuapp.com/
 
 ```Fix tweet:```
 
