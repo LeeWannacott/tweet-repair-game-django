@@ -1,3 +1,5 @@
+Note: not hosted anymore after heroku killed there free tier.
+
 # tweet-repair-game-django
 
 The idea for this app arose from participating in Global Game Jam 2020. 
