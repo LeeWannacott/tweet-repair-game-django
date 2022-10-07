@@ -1,4 +1,4 @@
-Note: not hosted anymore after heroku killed there free tier.
+Note: not hosted anymore after heroku killed their free tier.
 
 # tweet-repair-game-django
 
